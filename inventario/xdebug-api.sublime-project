@@ -1,0 +1,17 @@
+{
+    "folders":
+    [
+        {
+            "follow_symlinks": true,
+            "path": "."
+        }
+    ],
+    "settings": {
+        "xdebug": {
+             "url": "http://localhost:8000/inventario",
+             "path_mapping": {
+                "C:/xampp/htdocs/inventario" : "C:/xampp/htdocs/inventario"
+             }
+        }
+    }
+}
