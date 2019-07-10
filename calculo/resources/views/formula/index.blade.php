@@ -95,7 +95,7 @@ var auxId='';
   function editFromTable(id){
   auxId=id;
   $(".detalleTablaFormulaProducto").load("http://localhost:8000/calculo/public/partial/detalleTablaFormulaProducto.html");
-  GetById(auxId);
+  GetById(auxId);ss
 }
 </script>
 

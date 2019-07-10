@@ -13,13 +13,19 @@ use Illuminate\Http\Request;
 		'as'=>'admin.index',
 		'uses'=>'AuthController@admin'
 		]);
-		Route::get('configuration',[
-			'as'=>'configuration.index',
-			'uses'=>'ConfigurationController@index'
-		]);
-		
+	Route::get('configuration',[
+		'as'=>'configuration.index',
+		'uses'=>'ConfigurationController@index'
+	]);
+	Route::get('parametro', 'ParametroController@index');
+	Route::get('home','InicioController@index');	
+	Route::get('categoria',[
+		'as'=>'categoria.index',
+		'uses'=>'CategoriaController@index'
+	]);
+
 	Route::group(['middleware' => ['jwt.auth']], function() {
-		Route::get('home','InicioController@index');	
+		
 		Route::get('parametro', 'ParametroController@index');
 		Route::get('formula', 'FormulaController@index');
 		Route::get('formulaDetalle', 'FormulaDetalleController@index');
@@ -34,8 +40,5 @@ use Illuminate\Http\Request;
 			'as'=>'unidad.index',
 			'uses'=>'UnidadController@index'
 		]);
-		Route::get('categoria',[
-			'as'=>'categoria.index',
-			'uses'=>'CategoriaController@index'
-		]);
+		
 	});
