@@ -86,7 +86,7 @@ getAll();
   function getAll(){
     $.ajax({
       type: 'POST',
-      url:"http://localhost:8000/calculo/public/api/proyecto/GetAll?token="+localStorage.getItem('token'),
+      url:"http://localhost:8000/proyecto/calculo/public/api/proyecto/GetAll?token="+localStorage.getItem('token'),
       success: function(result) {
         $.each(result.data, function() {
           $.each(this, function(index, value) {
@@ -104,7 +104,7 @@ getAll();
   function updateDate(id,fecha_inicio,fecha_final){
     $.ajax({
       type: 'POST',
-      url:"http://localhost:8000/calculo/public/api/modulo/UpdateDataById?token="+localStorage.getItem('token'),
+      url:"http://localhost:8000/proyecto/calculo/public/api/modulo/UpdateDataById?token="+localStorage.getItem('token'),
       data:{
         id:id,
         fecha_inicio:fecha_inicio,
@@ -120,7 +120,7 @@ getAll();
   function GetByIdData (id){
     $.ajax({
       type: 'POST',
-      url:"http://localhost:8000/calculo/public/api/proyecto/GetByIdDate?token="+localStorage.getItem('token'),
+      url:"http://localhost:8000/proyecto/calculo/public/api/proyecto/GetByIdDate?token="+localStorage.getItem('token'),
       data:{
         id:id
       },

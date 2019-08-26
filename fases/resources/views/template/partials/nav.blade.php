@@ -15,21 +15,28 @@
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
       </a>
-      <a  href="http://localhost:8000/inventario/public/"  class="btn bg-yellow margin">
+      {{-- <a  href="http://localhost:8000/inventario/public/"  class="btn bg-yellow margin">
       <i class="fa fa-inbox"></i> Stock
       </a>
-      <a  href="http://localhost:8000/calculo/public/"  class="btn bg-yellow margin">
+      <a  href="http://localhost:8000/proyecto/calculo/public/"  class="btn bg-yellow margin">
       <i class="fa fa fa-cogs"></i> Calculo
       </a>
       <a  href="http://localhost:9000/home"  class="btn bg-yellow margin">
       <i class="fa fa-user"></i> Usuarios
-      </a>
+      </a> --}}
       <!-- <a href="" value="http://localhost:8000/pagos/public/"  class="btn bg-yellow margin">
       <i class="fa fa fa-money"></i> Pagos
       </a> -->
-      <a  href="http://localhost:8000/fases/public/"  class="btn bg-yellow margin">
+      {{-- <a  href="http://localhost:8000/proyecto/fases/public/"  class="btn bg-yellow margin">
       <i class="fa fa-calendar-check-o"></i> Fases
-      </a>
+      </a> --}}
+
+      <button class="btn bg-yellow margin" onclick="navigateToOtherModule('inventario')"><i class="fa fa-inbox"></i> Stock  </button>
+      <button class="btn bg-yellow margin" onclick="navigateToOtherModule('calculo')"><i class="fa fa-inbox"></i> Calculo  </button>
+      <button class="btn bg-yellow margin" onclick="navigateToOtherModule('usuarios')"><i class="fa fa-user"></i> Usuarios  </button>
+      <button class="btn bg-yellow margin" onclick="navigateToOtherModule('fases')"><i class="fa fa-user"></i> Fases  </button>
+
+
 
       <div class="navbar-custom-menu">
       
@@ -87,4 +94,11 @@ $("#salirSistema").click(function(){
   });
     //verifyMenu();
   });
+
+  function navigateToOtherModule(name) {
+  if(name != 'usuarios')
+  window.location = "http://localhost:8000/proyecto/"+name+"/public/home?token="+localStorage.getItem('token');
+  else
+  window.location = "http://localhost:9000/home?token="+localStorage.getItem('token');
+} 
   </script>

@@ -70,27 +70,20 @@
   </aside>
   <script>
   $("#menuIzquierda li a").hover(function(){
-     var url=window.location.origin+"/calculo/public/"+$(this).attr('value')+"?token="+localStorage.getItem('token');
+     var url=window.location.origin+"/proyecto/calculo/public/"+$(this).attr('value')+"?token="+localStorage.getItem('token');
      $(this).attr('href',url);
     });
 
     setMenu ();
-    
     function setMenu (){
       $.ajax({
         type: 'POST',
         url:{!!json_encode(url('/'))!!}+"/api/setMenu?token="+localStorage.getItem('token'),
         data:{},
         success: function(result) {
-          
-          if(result.data!=null){
-            $.each(result.data, function(index, value) {
-              if(value.rol=="admin" && value.sistema=="calculo"){
-                $("#roles").show();
-              }  
-            });
-          }
-          
+                if(result.data=="calculo"){
+                  $("#roles").show();
+                } 
          $("#usuarioSistema").html("Hola, "+result.user);
         },
         error: function(e) {}

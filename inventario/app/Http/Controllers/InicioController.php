@@ -15,18 +15,23 @@ class InicioController extends Controller
         return View('home.index');
     }
 
-    // 
     public function setMenu(Request $request){
-        $nombre=JWTAuth::getPayload($request->token)->get('nombre');
-        $data=JWTAuth::getPayload($request->token)->get('0');
-        $array =  (array) $data;
-        $resultado=$this->search($array,'sistema', 'stock');
-        //dd($resultado->sistema);
+        $data=JWTAuth::getPayload($request->token);
+        $permisos = $data->get('permiso')['grupos'];
+        $resultado=array();
+        foreach ($permisos as $permiso) { 
+            if( $permiso['nombre']== 'stock' ) {
+                $resultado = $permiso['nombre'];
+            }
+        }
+
         return response()->json([
             'success'=>true,
-            'user'=>$nombre,
+            'user'=>$data->get('usuario'),
+            'rol'=>$data->get('rol'),
             'data'=>$resultado
         ]);
+
         return (response()->json($data));
     }
 

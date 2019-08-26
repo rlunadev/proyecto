@@ -116,7 +116,7 @@
 var auxId='';
  $(document).ready(function () {
 	$('.select2').select2();
-  $(".tableSalida").load("http://localhost:8000/calculo/public/partial/test.html");
+  $(".tableSalida").load("http://localhost:8000/proyecto/calculo/public/partial/test.html");
   $('.datepicker').datepicker({autoclose: true})
  });
  getAll();
@@ -194,7 +194,7 @@ var auxId='';
       },
       success: function(obj) {
         updateTablaCantidadItem (auxId);
-        $(".tableSalida").load("http://localhost:8000/inventario/public/partial/test.html");
+        $(".tableSalida").load("http://localhost:8000/proyecto/inventario/public/partial/test.html");
         clear();
         auxId='';
         sumaTotal();

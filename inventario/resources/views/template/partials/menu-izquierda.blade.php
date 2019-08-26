@@ -67,7 +67,7 @@
   </aside>
   <script>
   $("#menutoken li a").hover(function(){
-     var url=window.location.origin+"/inventario/public/"+$(this).attr('value')+"?token="+localStorage.getItem('token');
+     var url=window.location.origin+"/proyecto/inventario/public/"+$(this).attr('value')+"?token="+localStorage.getItem('token');
      $(this).attr('href',url);
     });
 
@@ -78,18 +78,19 @@
         url:{!!json_encode(url('/'))!!}+"/api/setMenu?token="+localStorage.getItem('token'),
         data:{},
         success: function(result) {
-          if(result.data!=null){
-            if(result.data!=null){
-              $.each(result.data, function(index, value) {
-                if(value.rol=="admin" && value.sistema=="stock"){
+                if(result.data=="stock"){
                   $("#roles").show();
-                }  
-              });
-            }
-          }
+                } 
          $("#usuarioSistema").html("Hola, "+result.user);
         },
         error: function(e) {}
       });
     }
+
+    function navigateToOtherModule(name) {
+    if(name != 'usuarios')
+      window.location = "http://localhost:8000/proyecto/"+name+"/public/home?token="+localStorage.getItem('token');
+    else
+      window.location = "http://localhost:9000/home?token="+localStorage.getItem('token');
+    } 
   </script>

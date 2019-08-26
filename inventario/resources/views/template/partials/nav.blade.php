@@ -15,7 +15,7 @@
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
       </a>
-      <a href="" value="http://localhost:8000/inventario/public"  class="btn bg-green margin">
+      {{-- <a href="" value="http://localhost:8000/proyecto/inventario/public/public"  class="btn bg-green margin">
       <i class="fa fa-inbox menutoken"></i> Stock
       </a>
       <a href="" value="http://localhost:8000/calculo/public"  class="btn bg-green margin">
@@ -23,13 +23,18 @@
       </a>
       <a href="" value="http://localhost:9000/home"  class="btn bg-green margin">
       <i class="fa fa-user"></i> Usuarios
-      </a>
+      </a> --}}
       <!-- <a href="" value="http://localhost:8000/pagos/public" class="btn bg-green margin">
       <i class="fa fa fa-money"></i> Pagos
       </a> -->
-      <a href="" value="http://localhost:8000/fases/public" class="btn bg-green margin">
+      {{-- <a href="" value="http://localhost:8000/fases/public" class="btn bg-green margin">
       <i class="fa fa-calendar-check-o"></i> Fases
-      </a>
+      </a> --}}
+
+      <button class="btn bg-green margin" onclick="navigateToOtherModule('inventario')"><i class="fa fa-inbox"></i> Stock  </button>
+      <button class="btn bg-green margin" onclick="navigateToOtherModule('calculo')"><i class="fa fa-inbox"></i> Calculo  </button>
+      <button class="btn bg-green margin" onclick="navigateToOtherModule('usuarios')"><i class="fa fa-user"></i> Usuarios  </button>
+      <button class="btn bg-green margin" onclick="navigateToOtherModule('fases')"><i class="fa fa-user"></i> Fases  </button>
 
       <div class="navbar-custom-menu">
       
@@ -85,4 +90,11 @@ $("#salirSistema").click(function(){
     var url=$(this).attr('value')+"?token="+localStorage.getItem('token');
     $(this).attr('href',url);
   });
+
+  function navigateToOtherModule(name) {
+    if(name != 'usuarios')
+      window.location = "http://localhost:8000/proyecto/"+name+"/public/home?token="+localStorage.getItem('token');
+    else
+      window.location = "http://localhost:9000/home?token="+localStorage.getItem('token');
+  } 
   </script>

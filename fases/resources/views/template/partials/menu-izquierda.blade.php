@@ -36,26 +36,20 @@
   </aside>
   <script>
   $("#menuIzquierda li a").hover(function(){
-     var url=window.location.origin+"/fases/public/"+$(this).attr('value')+"?token="+localStorage.getItem('token');
+     var url=window.location.origin+"/proyecto/fases/public/"+$(this).attr('value')+"?token="+localStorage.getItem('token');
      $(this).attr('href',url);
     });
 
-    setMenu ();
+    setMenu();
     function setMenu (){
       $.ajax({
         type: 'POST',
         url:{!!json_encode(url('/'))!!}+"/api/setMenu?token="+localStorage.getItem('token'),
         data:{},
         success: function(result) {
-          if(result.data!=null){
-            if(result.data!=null){
-              $.each(result.data, function(index, value) {
-                if(value.sistema=="fases"){
+                if(result.data=="fases"){
                   $("#roles").show();
-               }  
-              });
-            }
-          }
+                } 
          $("#usuarioSistema").html("Hola, "+result.user);
         },
         error: function(e) {}

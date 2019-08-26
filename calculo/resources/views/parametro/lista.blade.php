@@ -94,7 +94,7 @@ var auxId='';
 
   function editFromTable(id){
   auxId=id;
-  $(".detalleTablaSalidaProducto").load("http://localhost:8000/inventario/public/partial/detalleTablaSalidaProducto.html");
+  $(".detalleTablaSalidaProducto").load("http://localhost:8000/proyecto/inventario/public/partial/detalleTablaSalidaProducto.html");
   GetById(auxId);
 }
 </script>

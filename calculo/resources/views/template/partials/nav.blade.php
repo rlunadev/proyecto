@@ -15,20 +15,10 @@
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
       </a>
-      <a href="" value="http://localhost:8000/inventario/public"  class="btn bg-red margin">
-      <i class="fa fa-inbox"></i> Stock
-      </a>
-      <a href="" value="http://localhost:8000/calculo/public"  class="btn bg-red margin">
-      <i class="fa fa fa-cogs"></i> Calculo
-      </a>
-      <a href="" value="http://localhost:9000/home"  class="btn bg-red margin">
-      <i class="fa fa-user"></i> Usuarios
-      </a>
-      <!-- <a href="" value="http://localhost:8000/pagos/public"  class="btn bg-red margin">
-      <i class="fa fa-money"></i> Pagos
-      </a> -->
-      <a href="" value="http://localhost:8000/fases/public"  class="btn bg-red margin">
-      <i class="fa fa-calendar-check-o"></i> Fases
+      <button class="btn bg-red margin" onclick="navigateToOtherModule('inventario')"><i class="fa fa-inbox"></i> Stock  </button>
+      <button class="btn bg-red margin" onclick="navigateToOtherModule('calculo')"><i class="fa fa-inbox"></i> Calculo  </button>
+      <button class="btn bg-red margin" onclick="navigateToOtherModule('usuarios')"><i class="fa fa-user"></i> Usuarios  </button>
+      <button class="btn bg-red margin" onclick="navigateToOtherModule('fases')"><i class="fa fa-user"></i> Fases  </button>
       </a>
       <div class="navbar-custom-menu">
         <ul class="nav navbar-nav">
@@ -82,4 +72,11 @@ $("#salirSistema").click(function(){
     var url=$(this).attr('value')+"?token="+localStorage.getItem('token');
     $(this).attr('href',url);
   });
+
+  function navigateToOtherModule(name) {
+  if(name != 'usuarios')
+  window.location = "http://localhost:8000/proyecto/"+name+"/public/home?token="+localStorage.getItem('token');
+  else
+  window.location = "http://localhost:9000/home?token="+localStorage.getItem('token');
+} 
   </script>

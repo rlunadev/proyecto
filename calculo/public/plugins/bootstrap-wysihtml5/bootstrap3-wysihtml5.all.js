@@ -14719,10 +14719,10 @@ function program17(depth0,data) {
           'class' : 'wysihtml5-toolbar',
           'style': 'display:none'
         });
-        var culture = options.locale || defaultOptions.locale || 'en';
+        var culture = options.locale || defaultOptions.locale || 'es';
         if(!locale.hasOwnProperty(culture)) {
           console.debug('Locale \'' + culture + '\' not found. Available locales are: ' + Object.keys(locale) + '. Falling back to \'en\'.');
-          culture = 'en';
+          culture = 'es';
         }
         var localeObject = $.extend(true, {}, locale.en, locale[culture]);
         for(var key in options.toolbar) {
@@ -14885,7 +14885,7 @@ function program17(depth0,data) {
           'pre': 1
         }
       },
-      locale: 'en',
+      locale: 'es',
       shortcuts: {
         '83': 'small',// S
         '75': 'createLink'// K

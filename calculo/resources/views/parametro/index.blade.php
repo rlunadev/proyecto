@@ -90,21 +90,21 @@
 <script src="{{asset('bower_components/jquery/dist/jquery.min.js')}}"></script>
 <script src="{{asset('bower_components/bootstrap/dist/js/bootstrap.min.js')}}"></script>
 <script src="{{asset('bower_components/datatables.net/js/jquery.dataTables.min.js')}}"></script>
-<script src="{{asset('bower_components/datatables.net-bs/js/dataTables.bootstrap.min.js')}}"></script>
+<script src="{{asset('bower_components/datatables.net-bs/js/dataTables.bootstrap.js')}}"></script>
 <!-- <script src="{{asset('dist/js/adminlte.min.js')}}"></script> -->
 
 <script>
 var auxId='';
  $(document).ready(function () {
 	$('.select2').select2();
-  $(".tableSalida").load("http://localhost:8000/calculo/public/partial/parametros.html");
+  $(".tableSalida").load("http://localhost:8000/proyecto/calculo/public/partial/parametros.html");
   });
  getAll();
 //Get all ITEM
   function getAll(){
     $.ajax({
       type: 'POST',
-      url:"http://localhost:8000/inventario/public/api/item/GetAll?token="+localStorage.getItem('token'),
+      url:"http://localhost:8000/proyecto/inventario/public/api/item/GetAll?token="+localStorage.getItem('token'),
       //data:{data:2},
       success: function(result) {
         console.log(result);
@@ -115,8 +115,6 @@ var auxId='';
           });
         });
         $('#table1').DataTable({
-          //"pageLength":5
-          //"columns":[{"data":"P.Subtotal",render:$.fn.dataTable.render(',','.',2,'')}]
         });
         getAllDetalle(); 
       },
@@ -139,8 +137,6 @@ var auxId='';
               $("#table2 tbody").append(newItem);
           });
         });
-       // var newItem = $("<tfoot><tr><td></td><td></td><td><b>TOTAL</b></td><td><p id='total'></p> </td><td></td></tr></tfoot>");
-        //$("#table2").append(newItem);
         $('#table2').DataTable({});
         sumaTotal();
       },
@@ -165,7 +161,6 @@ var auxId='';
   }
 //SAVE DETALLE SALIDA DETALLE
   function SaveData (nombre,precio_venta,unidad_id,unidad_formula,nombre_empresa,empresa_id,equivale,categoria,unidad){
-    //SaveData($("#nombre").val(),$("#precio_venta").val(),$("#unidad_id").val(),$("#unidad_formula").val(),$("#nombre_empresa").val(),$("#empresa_id").val());
     $.ajax({
       type: 'POST',
       url:{!!json_encode(url('/'))!!}+"/api/parametro/SaveData?token="+localStorage.getItem('token'),
@@ -183,7 +178,7 @@ var auxId='';
       },
       success: function(obj) {
         updateTablaCantidadItem (obj.id);
-        $(".tableSalida").load("http://localhost:8000/calculo/public/partial/parametros.html");
+        $(".tableSalida").load("http://localhost:8000/proyecto/calculo/public/partial/parametros.html");
         getAllDetalle();
         clear();
         auxId='';
@@ -196,7 +191,7 @@ var auxId='';
   function GetById (id){
     $.ajax({
       type: 'POST',
-      url:"http://localhost:8000/inventario/public/api/item/GetById?token="+localStorage.getItem('token'),
+      url:"http://localhost:8000/proyecto/inventario/public/api/item/GetById?token="+localStorage.getItem('token'),
       data:{
         id:id
       },
@@ -205,8 +200,6 @@ var auxId='';
         $("#precio_venta").val(result.data.data[0].precio_venta);
         $("#unidad_id").val(result.data.data[0].unidad.id);
         $("#unidad_formula").val(result.data.data[0].unidad.valor);
-       // $("#nombre_empresa").val(result.data.data[0].empresa.nombre);
-       // $("#empresa_id").val(result.data.data[0].empresa.id);
         $("#equivale").val(result.data.data[0].equivale);
         $("#categoria").val(result.data.data[0].categoria.nombre);
         $("#unidad").val(result.data.data[0].unidad.nombre);
@@ -223,10 +216,6 @@ var auxId='';
         id:item_id
       },
       success: function(result) {
-
-        //console.log(result);
-        //$('#table1').find('#trId_' + item_id).find("td").eq(1).html(result.data.data[0].cantidad);
-        //clear();
       auxId='';
       },
       error: function(e) {}
@@ -252,7 +241,7 @@ var auxId='';
       }
       else {
         if(result.success){
-          window.location.href ="http://localhost:8000/inventario/public/salidaLista?token="+localStorage.getItem('token')
+          window.location.href ="http://localhost:8000/proyecto/inventario/public/salidaLista?token="+localStorage.getItem('token')
         }
       }
 

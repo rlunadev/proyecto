@@ -25,11 +25,7 @@
 	    <div class="content-wrapper">
 	    @include('template.partials.errors')
 			<div class=" box-body">
-			<!-- for loading add the next div -->
-			<!-- <div class="loading" id="loading" style="position: absolute; width: 100%;height: 100%;background: white; z-index:1000000;"></div> -->
-				<!-- <div class="box box-primary"> -->
 				  @yield('content')
-				<!-- </div> -->
 		</div>
 		</div>
 	</section>
@@ -38,7 +34,7 @@
 <script src="{{asset('bower_components/bootstrap-datepicker/dist/js/bootstrap-datepicker.min.js')}}"></script>
 <script src="{{asset('bower_components/jquery-slimscroll/jquery.slimscroll.min.js')}}"></script>
 <script src="{{asset('bower_components/fastclick/lib/fastclick.js')}}"></script>
-<script src="{{asset('bower_components/datatables.net/js/jquery.dataTables.min.js')}}"></script>
+<script src="{{asset('bower_components/datatables.net/js/jquery.dataTables.js')}}"></script>
 <script src="{{asset('bower_components/datatables.net-bs/js/dataTables.bootstrap.min.js')}}"></script>
 <script src="{{asset('dist/js/adminlte.min.js')}}"></script>
 <script src="{{asset('bower_components/select2/dist/js/select2.full.min.js')}}"></script>
