@@ -30,36 +30,6 @@
             <i class="fa fa-laptop"></i> <span>Fases</span>
           </a>
         </li> 
-        <!-- <li>
-          <a href="" value="unidad">
-            <i class="fa fa-laptop"></i> <span>Unidades</span>
-          </a>
-        </li>  -->
-       <!--  </div>
-        <li class="treeview">
-          <a href="">
-            <i class="fa fa-pie-chart"></i>
-            <span>Salidas</span>
-            <span class="pull-right-container">
-              <i class="fa fa-angle-left pull-right"></i>
-            </span>
-          </a>
-          <ul class="treeview-menu">
-          <li><a href="" value="salida"><i class="fa fa-laptop"></i> <span>Nueva Salida</span></a></li>
-          <li><a href="" value="salidaLista"><i class="fa fa-laptop"></i> <span>Listar Salidas</span></a></li>
-          </ul>
-        </li>
-        <li>
-          <a href="" value="item">
-            <i class="fa fa-laptop"></i> <span>Productos</span>
-          </a>
-        </li> 
-        <li>
-          <a href="" value="empresa">
-            <i class="fa fa-laptop"></i> <span>Empresa</span>
-          </a>
-        </li>  -->
-        
       </ul>
     </section>
     <!-- /.sidebar -->
@@ -80,9 +50,9 @@
           if(result.data!=null){
             if(result.data!=null){
               $.each(result.data, function(index, value) {
-                if(value.rol=="admin" && value.sistema=="fases"){
+                if(value.sistema=="fases"){
                   $("#roles").show();
-                }  
+               }  
               });
             }
           }

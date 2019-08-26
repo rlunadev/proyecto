@@ -76,8 +76,9 @@
     </body>
     <script src="{{asset('bower_components/jquery/dist/jquery.min.js')}}"></script>
     <script>
+        debugger;
     if(sessionStorage.getItem('servidor_logueo')!==undefined)
-        window.location.href =  sessionStorage.getItem('servidor_logueo');
+        window.location.href = sessionStorage.getItem('servidor_logueo');
     </script>
 </html>
 

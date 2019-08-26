@@ -1,6 +1,6 @@
 
 @extends('template.main')
-@section('title','Indice usuario')
+@section('title','Indice calculo')
 @section('content')
 	<h3>Bienvenido</h3>
 @endsection
