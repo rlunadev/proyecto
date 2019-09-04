@@ -53,7 +53,25 @@ class SalidaDetalleController extends Controller
             'success'=>true,
             'data'=> [ 'data' => $data]
         ]);
-	}
+    }
+    
+    public function GetUltimasSalida(){
+        $data  = SalidaDetalle::orderBy('created_at','DESC')
+        ->skip(0)
+        ->take(8)
+        ->get();
+
+		$data->each(function($data){
+			$data->categoria;
+			$data->unidad;
+        });
+
+        return response()->json([
+            'success'=>true,
+            'data'=>  $data
+        ]);
+    }
+
 	//GET BY EMPRESA
 	public function GetByEmpresaId(Request $request){
         $id_empresa=JWTAuth::getPayload($request->token)->get('empresa.id');

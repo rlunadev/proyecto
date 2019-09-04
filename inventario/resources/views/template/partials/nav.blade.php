@@ -40,7 +40,7 @@
       
         <ul class="nav navbar-nav">
         <li class="dropdown messages-menu">
-            <a href="#" id="usuarioSistema"></a>
+            <span id="usuarioSistema" class="btn bg-green margin"></span>
           </li>
           <!-- Messages: style can be found in dropdown.less-->
           <li class="dropdown messages-menu">
@@ -64,7 +64,7 @@ if(urlToken!==''){
 }
 $("#salirSistema").click(function(){
   localStorage.setItem('token','');
-  window.location.href =  sessionStorage.getItem('ruta_inicial')
+  window.location.href =  sessionStorage.getItem('servidor_logueo')
 });
 
   verifyMenu();
@@ -92,9 +92,20 @@ $("#salirSistema").click(function(){
   });
 
   function navigateToOtherModule(name) {
-    if(name != 'usuarios')
-      window.location = "http://localhost:8000/proyecto/"+name+"/public/home?token="+localStorage.getItem('token');
-    else
-      window.location = "http://localhost:9000/home?token="+localStorage.getItem('token');
-  } 
+  var urlRedirect = '';
+  if(name != 'usuarios')
+    urlRedirect = "http://localhost:8000/proyecto/"+name+"/public/home?token="+localStorage.getItem('token');
+  else
+    urlRedirect = "http://localhost:9000/home?token="+localStorage.getItem('token');
+
+  $.ajax({
+        url:urlRedirect,
+        success: function (data) { 
+            window.location = urlRedirect;
+        },
+        error: function (jqXHR, status, er) {
+          showError( "El dominio  "+ (new URL(urlRedirect)).origin + " no esta disponible.")
+        }
+    });
+} 
   </script>

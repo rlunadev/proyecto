@@ -48,8 +48,8 @@
 <script src="{{asset('bower_components/datatables.net/js/jquery.dataTables.min.js')}}"></script>
 <script src="{{asset('bower_components/datatables.net-bs/js/dataTables.bootstrap.min.js')}}"></script>
 
-<!-- <script src="{{asset('gantt/lib/jquery-1.4.2.js')}}"></script>
-<script src="{{asset('gantt/lib/jquery-ui-1.8.4.js')}}"></script> -->
+<script src="{{asset('gantt/lib/jquery-1.4.2.js')}}"></script>
+<script src="{{asset('gantt/lib/jquery-ui-1.8.4.js')}}"></script>
 <script src="{{asset('gantt/lib/date.js')}}"></script>
 <script src="{{asset('gantt/example/data.js')}}"></script>
 <script src="{{asset('gantt/jquery.ganttView.js')}}"></script>

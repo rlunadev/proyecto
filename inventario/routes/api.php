@@ -49,6 +49,7 @@ Route::post('setMenu', 'InicioController@setMenu');
     Route::post('item/SaveData', 'ItemController@SaveData');
     Route::post('item/GetById', 'ItemController@GetById');
     Route::post('item/Update', 'ItemController@Update');
+    Route::post('item/GetUltimosAgregados', 'ItemController@GetUltimosAgregados');
     Route::post('item/GetByEmpresaId', 'ItemController@GetByEmpresaId');
 
     //******* SALIDA ******//
@@ -60,6 +61,7 @@ Route::post('setMenu', 'InicioController@setMenu');
     Route::post('salida/GetByEmpresaId', 'SalidaController@GetByEmpresaId');
     //******* SALIDA DETALLE******//
     Route::get('salidaDetalle/GetAll', 'SalidaDetalleController@GetAll');
+    Route::get('salidaDetalle/GetUltimasSalida', 'SalidaDetalleController@GetUltimasSalida');
     Route::post('salidaDetalle/DeleteById', 'SalidaDetalleController@DeleteById');
     Route::post('salidaDetalle/SaveData', 'SalidaDetalleController@SaveData');
     Route::post('salidaDetalle/GetById', 'SalidaDetalleController@GetById');

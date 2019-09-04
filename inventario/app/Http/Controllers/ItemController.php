@@ -29,7 +29,7 @@ class ItemController extends Controller
 
     public function GetAll(Request $request){
         $data=Item::all();
-       
+
 		$data->each(function($data){
 			$data->categoria;
 			$data->unidad;
@@ -39,12 +39,27 @@ class ItemController extends Controller
             'success'=>true,
             'data'=> [ 'data' => $data]
         ]);
-	}
+    }
+
+    public function GetUltimosAgregados(Request $request){
+        $data  = Item::orderBy('created_at','DESC')
+        ->skip(0)
+        ->take(8)
+        ->get();
+
+		$data->each(function($data){
+			$data->categoria;
+			$data->unidad;
+        });
+
+        return response()->json([
+            'success'=>true,
+            'data'=>  $data
+        ]);
+    }
+
 	//GET BY EMPRESA
 	public function GetByEmpresaId(Request $request){
-        //dd($request->token);
-        $id_empresa=JWTAuth::getPayload($request->token)->get('empresa.id');
-       // $data=Item::where('empresa_id','=',$id_empresa)->get();
         $data=Item::all();
 		$data->each(function($data){
 			$data->categoria;

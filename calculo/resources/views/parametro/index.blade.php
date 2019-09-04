@@ -4,44 +4,8 @@
 @section('content')
 
 <div class="panel panel-default">
-	<!-- <div class="col-md-12">
-		<div class="col-md-8">
-			<p class="panel-heading">Salidas</p>
-		</div>
-		<div class="col-md-4">
-
-		</div>
-	</div> -->
 		<div>
-      
-      <!-- /.box-body -->
-      <!-- /.box-header -->
       <div class="col-md-5">
-        <!-- <div class="row">
-           <div class="box box-info">
-              <div class="box-header with-border">
-                <h3 class="box-title">Datos Salida</h3>
-                <div class="box-tools pull-right">
-                  <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i>
-                  </button>
-                </div>
-              </div>
-              <div class="box-body">
-                
-                  <div class="box-body">
-                    <div class="form-group">
-                      <label for="nombre">Nombre Salida</label>
-                      <input type="text" class="form-control" id="nombre" placeholder="">
-                    </div>
-                    <div class="form-group">
-                      <label for="empresa_solicitante">Empresa Solictud</label>
-                      <input type="text" class="form-control" id="empresa_solicitante" placeholder="">
-                    </div>
-                  </div>
-
-              </div>
-            </div>
-        </div> -->
         <div class="row">
           <div class="box box-danger">
                 <div class="box-header with-border">

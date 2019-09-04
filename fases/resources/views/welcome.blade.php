@@ -77,12 +77,6 @@
     <script src="{{asset('bower_components/jquery/dist/jquery.min.js')}}"></script>
     <script>
     //Redirect 
-    var url_string = window.location.href
-    var url = new URL(url_string);
-    var c = url.searchParams.get("token");
-    localStorage.setItem('token,'c)
-    console.log(c);
-    debugger;
     getAll();
     function getAll(){
         $.ajax({

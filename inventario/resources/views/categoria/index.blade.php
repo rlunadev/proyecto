@@ -111,7 +111,7 @@ function SaveData (nombre,descripcion){
       message='';
       }
       else {
-      var newItem = $("<tr  id='trId_"+result.result.id+"' role='row' class='odd'><td class='sorting_1'> <input type='hidden'>" +result.result.nombre + "</td><td>" + result.result.descripcion+" </td><td class='text-right'><button type='button' class='btn btn-default btn-sm' onclick='editFromTable("+result.result.id+")' data-href='"+result.result.id+"'  data-toggle='modal' data-target='#modal-edit' > Edit </button> <button type='button' class='btn btn-default btn-sm' onclick='deleteFromTable("+result.result.id+")' data-href='"+result.result.id+"' data-toggle='modal' data-target='#confirm-modal'> Borrar </button></td></tr>");
+      var newItem = $("<tr  id='trId_"+result.result.id+"' role='row' class='odd'><td class='sorting_1'> <input type='hidden'>" +result.result.nombre + "</td><td>" + result.result.descripcion+" </td><td class='text-right'><button type='button' class='btn btn-default btn-sm' onclick='editFromTable("+result.result.id+")' data-href='"+result.result.id+"'  data-toggle='modal' data-target='#modal-edit' > Editar </button> <button type='button' class='btn btn-default btn-sm' onclick='deleteFromTable("+result.result.id+")' data-href='"+result.result.id+"' data-toggle='modal' data-target='#confirm-modal'> Borrar </button></td></tr>");
 					$("#table1 tbody").append(newItem);
           clear();
         }
@@ -216,7 +216,7 @@ function clear(){
           </div>
           <div class="form-group">
               <label>Descripcion</label>
-              <input type="text"id="descripcion" class="form-control" placeholder="Http://www.example.com">
+              <input type="text"id="descripcion" class="form-control" placeholder="descripcion">
           </div>
         </div>
         <div class="modal-footer">

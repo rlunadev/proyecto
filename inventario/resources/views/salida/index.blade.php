@@ -130,7 +130,7 @@
 var auxId='';
  $(document).ready(function () {
 	$('.select2').select2();
-  $(".tableSalida").load("http://localhost:8000/proyecto/inventario/public/public/partial/test.html");
+  $(".tableSalida").load("http://localhost:8000/proyecto/inventario/public/partial/test.html");
  });
  getAll();
  getAllDetalle();
@@ -185,7 +185,6 @@ var auxId='';
         id:id
       },
       success: function(result) {
-        console.log(result);
         updateTablaCantidadItem (result.item_id);
         sumaTotal();
       },
@@ -209,7 +208,7 @@ var auxId='';
         // getAll();
         updateTablaCantidadItem (auxId);
         //$('#table2 tr>td').remove();
-        $(".tableSalida").load("http://localhost:8000/proyecto/inventario/public/public/partial/test.html");
+        $(".tableSalida").load("http://localhost:8000/proyecto/inventario/public/partial/test.html");
         getAllDetalle();
         clear();
         auxId='';
@@ -277,7 +276,7 @@ var auxId='';
       }
       else {
         if(result.success){
-          window.location.href ="http://localhost:8000/proyecto/inventario/public/public/salidaLista?token="+localStorage.getItem('token')
+          window.location.href ="http://localhost:8000/proyecto/inventario/public/salidaLista?token="+localStorage.getItem('token')
         }
       }
 

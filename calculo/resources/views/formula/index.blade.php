@@ -52,7 +52,7 @@ var auxId='';
       success: function(result) {
         $.each(result.data, function() {
           $.each(this, function(index, value) {
-            var newItem = $("<tr  id='trId_"+value.id+"' role='row' class='odd'><td class='sorting_1'>" + value.nombre + "</td><td>" + value.subTotal+" </td><td>" + value.fecha+" </td><td class='text-right'><button type='button' class='btn btn-default btn-sm'  onclick='editFromTable("+value.id+")' data-href='"+value.id+"'  data-toggle='modal' data-target='#modal-edit' > Detalle </button></td></tr>");
+            var newItem = $("<tr  id='trId_"+value.id+"' role='row' class='odd'><td class='sorting_1'>" + value.nombre + "</td><td>" + value.subTotal+" </td><td>" + value.fecha+" </td><td class='text-right'><button type='button' class='btn btn-default btn-sm'>Borrar</button><button type='button' class='btn btn-default btn-sm'>Editar</button><button type='button' class='btn btn-default btn-sm'  onclick='editFromTable("+value.id+")' data-href='"+value.id+"'  data-toggle='modal' data-target='#modal-edit' > Detalle </button></td></tr>");
               $("#table1 tbody").append(newItem);
           });
         });

@@ -10,7 +10,7 @@
         </div>
       </div>
       <!-- search form -->
-      <form action="#" method="get" class="sidebar-form">
+      {{-- <form action="#" method="get" class="sidebar-form">
         <div class="input-group">
           <input type="text" name="q" class="form-control" placeholder="Search...">
           <span class="input-group-btn">
@@ -18,7 +18,7 @@
                 </button>
               </span>
         </div>
-      </form>
+      </form> --}}
       <!-- /.search form -->
       <!-- sidebar menu: : style can be found in sidebar.less -->
       
@@ -87,10 +87,21 @@
       });
     }
 
-    function navigateToOtherModule(name) {
-    if(name != 'usuarios')
-      window.location = "http://localhost:8000/proyecto/"+name+"/public/home?token="+localStorage.getItem('token');
-    else
-      window.location = "http://localhost:9000/home?token="+localStorage.getItem('token');
-    } 
+  function navigateToOtherModule(name) {
+   var urlRedirect = '';
+  if(name != 'usuarios')
+    urlRedirect = "http://localhost:8000/proyecto/"+name+"/public/home?token="+localStorage.getItem('token');
+  else
+    urlRedirect = "http://localhost:9000/home?token="+localStorage.getItem('token');
+
+  $.ajax({
+        url:urlRedirect,
+        success: function (data) { 
+            window.location = urlRedirect;
+        },
+        error: function (jqXHR, status, er) {
+          showError( "El dominio  "+ (new URL(urlRedirect)).origin + " no esta disponible.")
+        }
+    });
+} 
   </script>

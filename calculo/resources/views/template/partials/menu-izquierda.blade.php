@@ -12,7 +12,7 @@
         </div>
       </div>
       <!-- search form -->
-      <form action="#" method="get" class="sidebar-form">
+      {{-- <form action="#" method="get" class="sidebar-form">
         <div class="input-group">
           <input type="text" name="q" class="form-control" placeholder="Search...">
           <span class="input-group-btn">
@@ -20,37 +20,37 @@
                 </button>
               </span>
         </div>
-      </form>
+      </form> --}}
       <!-- /.search form -->
       <!-- sidebar menu: : style can be found in sidebar.less -->
       <ul class="sidebar-menu" data-widget="tree" id="menuIzquierda">
       <div  class="sidebar-menu" data-widget="tree"  id="roles" style="display:none"> 
         <li>
           <a href="" value="parametro">
-            <i class="fa fa-laptop"></i> <span>Parametros</span>
+            <i class="fa fa-bars"></i> <span>Parametros</span>
           </a>
         </li> 
         <li>
           <a href="" value="formulaDetalle">
-            <i class="fa fa-laptop"></i> <span>Formulas</span>
+            <i class="fa fa-cogs"></i> <span>Formulas</span>
           </a>
         </li> 
        
         <li>
           <a href="" value="modulo">
-            <i class="fa fa-laptop"></i> <span>Modulos</span>
+            <i class="fa fa-calculator"></i> <span>Modulos</span>
           </a>
         </li> 
         
         <li>
           <a href="" value="proyecto">
-            <i class="fa fa-laptop"></i> <span>Proyectos</span>
+            <i class="fa fa-cubes"></i> <span>Proyectos</span>
           </a>
         </li> 
 
         <li>
           <a href="" value="formula">
-            <i class="fa fa-laptop"></i> <span>Lista de Formulas</span>
+            <i class="fa fa-object-group"></i> <span>Lista de Formulas</span>
           </a>
         </li> 
         <!-- <li>
@@ -60,7 +60,7 @@
         </li>  -->
         <li>
           <a href="" value="listaproyecto">
-            <i class="fa fa-laptop"></i> <span> Lista de Proyectos</span>
+            <i class="fa fa-microchip"></i> <span> Lista de Proyectos</span>
           </a>
         </li> 
         </div>

@@ -96,9 +96,20 @@ $("#salirSistema").click(function(){
   });
 
   function navigateToOtherModule(name) {
+  var urlRedirect = '';
   if(name != 'usuarios')
-  window.location = "http://localhost:8000/proyecto/"+name+"/public/home?token="+localStorage.getItem('token');
+    urlRedirect = "http://localhost:8000/proyecto/"+name+"/public/home?token="+localStorage.getItem('token');
   else
-  window.location = "http://localhost:9000/home?token="+localStorage.getItem('token');
+    urlRedirect = "http://localhost:9000/home?token="+localStorage.getItem('token');
+
+  $.ajax({
+        url:urlRedirect,
+        success: function (data) { 
+            window.location = urlRedirect;
+        },
+        error: function (jqXHR, status, er) {
+          showError( "El dominio  "+ (new URL(urlRedirect)).origin + " no esta disponible.")
+        }
+    });
 } 
   </script>

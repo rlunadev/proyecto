@@ -1,1 +1,0 @@
-<?php return array('token_generated'=>"empty");
