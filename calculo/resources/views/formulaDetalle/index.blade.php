@@ -103,6 +103,13 @@
         </div>
       </div>
 </div>
+<a href=""class="btn btn-danger" id="siguiente">Siguiente</a>
+<script>
+  $("#siguiente").hover(function(){
+     var url=window.location.origin+"/proyecto/calculo/public/modulo?token="+localStorage.getItem('token');
+     $(this).attr('href',url);
+  });
+</script>
 @endsection
 
 <script src="{{asset('bower_components/jquery/dist/jquery.min.js')}}"></script>

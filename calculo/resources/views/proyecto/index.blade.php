@@ -1,19 +1,10 @@
-
 @extends('template.main')
 @section('title','Indice usuario')
 @section('content')
 
 <div class="panel panel-default">
-	<!-- <div class="col-md-12">
-		<div class="col-md-8">
-			<p class="panel-heading">Salidas</p>
-		</div>
-		<div class="col-md-4">
-
-		</div>
-	</div> -->
 		<div>
-      
+      <input type="hidden" id="proyectoId">
       <!-- /.box-body -->
       <!-- /.box-header -->
       <div class="col-md-6">
@@ -27,11 +18,10 @@
                 </div>
               </div>
               <div class="box-body">
-                
-                  <div class="box-body">
+                  <div class="">
                     <div class="form-group">
                       <label for="nombre">Nombre Proyecto</label>
-                      <input type="text" class="form-control" id="nombre" placeholder="">
+                      <input type="text" required class="form-control" id="nombre" placeholder="">
                     </div>
                     <div class="form-group">
                       <label for="nombre">Ubicacion</label>
@@ -65,15 +55,37 @@
                   <div class="col-md-6">
                     </div>
                     <div class="col-md-6 text-left">
-                      <button type="button" class="btn btn-primary pull-right" id="closeSalida"> Crear</button>
+                      <button type="button" class="btn btn-primary pull-right"  onclick="SaveSalida()"> Crear</button>
                     </div>
                   <br><br>
                 </div>
             </div>
         </div>
         <div class="row">
-
-          </div>
+<div class="box box-danger">
+              <div class="box-header with-border">
+                <h3 class="box-title">Datos Proyecto</h3>
+                <div class="box-tools pull-right">
+                  <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i>
+                  </button>
+                </div>
+              </div>
+              
+                <div class="box-body">
+                    <table id="tablaModuloProyecto" class="table table-bordered table-striped">
+                        <thead>
+                        <tr>
+                          <th>Nombre Producto</th>
+                          <th>P. Unit.</th>
+                          <th></th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
         </div>
        
     <div class="col-md-6">
@@ -91,8 +103,8 @@
             <thead>
             <tr>
               <th>Nombre</th>
-              <th>Cant. Disp.</th>
-              <th>P. Venta </th>
+              <th>Cant.</th>
+              <th>Precio </th>
               <th></th>
             </tr>
             </thead>
@@ -128,19 +140,25 @@ var auxId='';
       url:{!!json_encode(url('/'))!!}+"/api/modulo/GetAll?token="+localStorage.getItem('token'),
       //data:{data:2},
       success: function(result) {
-        $.each(result.data, function() {
-          $.each(this, function(index, value) {
-            var newItem = $("<tr  id='trId_"+value.id+"' role='row' class='odd'><td class='sorting_1'>" + value.nombre + "</td><td>" + value.cantidad+" </td><td class='subtotal'>" + value.subTotal+" </td><td class='text-right'></td></tr>");
-              $("#table1 tbody").append(newItem);
-          });
-        });
-        var newItem = $("<tfoot><tr><td></td><td><b>TOTAL</b></td><td><p id='total'></p> </td><td></td></tr></tfoot>");
-        $("#table1").append(newItem);
-        sumaTotal();
-        $('#table1').DataTable({
-          //"pageLength":5
-          //"columns":[{"data":"P.Subtotal",render:$.fn.dataTable.render(',','.',2,'')}]
-        });
+        var lista = result.data.data;
+        if(lista.length>0) {
+          var items ="";
+          for (let i = 0; i < lista.length; i++) {
+            items = items +`
+            <tr  id='trId_${lista[i].id}'>
+              <td class='sorting_1'> ${lista[i].nombre} </td>
+              <td> ${lista[i].cantidad} </td>
+              <td class='subtotal'> ${lista[i].subTotal} </td>
+              <td class='text-right'> 
+                <button class="btn btn-default">Agregar</button> 
+              </td>
+            </tr>`;
+          }
+          $("#table1 tbody").append(items);
+          $("#table1 ").append("<tfoot><tr><td></td><td><b>TOTAL</b></td><td><p id='total'></p> </td><td></td></tr></tfoot>");
+          $('#table1').DataTable({});
+          sumaTotal();
+        }
       },
       error: function(e) {}
     });
@@ -234,6 +252,7 @@ var auxId='';
     });
  }
  function SaveSalida (){
+   if($("#nombre").val()!="" && $("#presupuesto").val()!="") {
     $.ajax({
       type: 'POST',
       url:{!!json_encode(url('/'))!!}+"/api/proyecto/SaveData?token="+localStorage.getItem('token'),
@@ -246,18 +265,19 @@ var auxId='';
         fecha_final:$("#fecha_final").val(),
       },
       success: function(result) {
-        if(!result.success) {
+        console.log(result)
+      if(!result.success) {
         for(var key in result.error){
           for(var i = 0;i<result.error[key].length;i++){
             message+=result.error[key]+" <br> ";
           }
         }
-      showError(message);
-      message='';
+        showError(message);
+        message='';
       }
       else {
         if(result.success){
-          location.reload();
+          //location.reload();
           //window.location.href ="http://localhost:8000/calculo/public/proyecto?token="+localStorage.getItem('token')
         }
       }
@@ -265,6 +285,7 @@ var auxId='';
       },
       error: function(e) {}
     });
+  }
   }
 // GET Any Select Option
   function getSelectOption(nombreSelect,isEdit,id){
@@ -313,14 +334,11 @@ function editFromTable(id){
   GetById(auxId);
 }
 
-$(document).on('click', '#closeSalida', function (e) {
-  SaveSalida();
-});
-//add=0, isedit=1
-//getSelectOption('categoria',0,0);
-//getSelectOption('unidad',0,0);
-//Modal Confirmation when okey
-  $(document).on('click', '#okey', function (e) {
+// $(document).on('click', '#closeSalida', function (e) {
+//   SaveSalida();
+// });
+
+$(document).on('click', '#okey', function (e) {
     deleteById(auxId);
     $("#trId_"+auxId).remove();
     auxId='';
@@ -345,7 +363,7 @@ function clearSelect(tipo){
   $("#select_"+tipo).find('option').remove();
   //$("#select_categoria").find('option').remove();
 }
-function sumaTotal(){
+function sumaTotal(items){
 var sum=0;
 $(".subtotal").each(function(){
   var value=$(this).text();

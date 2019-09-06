@@ -42,14 +42,10 @@ class ModuloController extends Controller
         $data=Modulo
         ::join('modulos_detalles','modulos.id','=','modulos_detalles.modulo_id')
         ->select('*')
-        ->whereNull('proyecto_id')
+        //->whereNull('proyecto_id')
+        ->groupBy('nombre')
         ->getQuery()
         ->get();
-       // dd($result);
-		//$data=Modulo::whereNull('proyecto_id')->get();
-		// $data->each(function($data){
-		// 	$data->moduloDetalle;
-		// });
         return response()->json([
             'success'=>true,
             'data'=> [ 'data' => $data]
