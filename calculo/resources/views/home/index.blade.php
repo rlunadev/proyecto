@@ -25,16 +25,8 @@
               <div class="row">
                
                 <!-- /.col -->
-                <div class="col-md-12">
-                  <div class="progress-group">
-                    <span class="progress-text">Add Products to Cart</span>
-                    <span class="progress-number"><b>160</b>/200</span>
-
-                    <div class="progress sm">
-                      <div class="progress-bar progress-bar-aqua" style="width: 90%"></div>
-                    </div>
-                  </div>
-                  <!-- /.progress-group -->
+                <div class="col-md-12" id="avanzeProyecto">
+                  {{-- <!-- /.progress-group -->
                   <div class="progress-group">
                     <span class="progress-text">Complete Purchase</span>
                     <span class="progress-number"><b>310</b>/400</span>
@@ -60,7 +52,7 @@
                     <div class="progress sm">
                       <div class="progress-bar progress-bar-yellow" style="width: 90%"></div>
                     </div>
-                  </div>
+                  </div> --}}
                   <!-- /.progress-group -->
                 </div>
                 <!-- /.col -->
@@ -114,7 +106,51 @@
         </div>
         <!-- /.col -->
       </div>
+      <script>  
+        avanceProyecto();
+        
+        function avanceProyecto() {
+            $.ajax({
+              type: 'POST',
+              url:{!!json_encode(url('/'))!!}+"/api/avanzeProyecto?token="+localStorage.getItem('token'),
+              success: function(result) {
+               lista = result.result
+               console.log(lista);
+              var items ="";
+              for (let i = 0; i < lista.length; i++) {
+                items = items + 
+                `
+                  <div class="info-box bg-${lista[i].status == 0?'yellow':'green'}">
+                    <span class="info-box-icon"><i class="ion ion-ios-pricetag-outline"></i></span>
+
+                    <div class="info-box-content">
+                      <span class="info-box-text">${lista[i].nombre}</span>
+                      <span class="info-box-text">Total Calculado: </span> <span class="info-box-number">${lista[i].total}</span> 
+                      <span class="info-box-text">Presupuesto: </span> <span class="info-box-number">${lista[i].presupuesto}</span>
+                      <div class="progress">
+                        <div class="progress-bar" style="width:  ${lista[i].porcentaje}%"></div>
+                      </div>
+                      <span class="progress-description">
+                        ${lista[i].porcentaje}% AVANCE
+                          </span>
+                    </div>
+                    <!-- /.info-box-content -->
+                  </div>
+                  
+                  
+                  `;
+              }
+              $("#avanzeProyecto").append(items);
+        
+                },
+                error: function(e) {}
+              });
+          }
+        </script>
+        
 @endsection
+
+
 
 
 

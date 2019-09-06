@@ -13,6 +13,7 @@ Route::get('RedirectToServer', 'InicioController@RedirectToServer');
 Route::group(['middleware' => ['jwt.auth']], function() {
 //Route::get('almacen', 'AlmacenController@test');
 Route::post('setMenu', 'InicioController@setMenu');
+Route::post('avanzeProyecto', 'InicioController@avanzeProyecto');
     //******* Parametro******//
     Route::post('parametro/GetAll', 'ParametroController@GetAll');
     Route::post('parametro/DeleteById', 'ParametroController@DeleteById');
