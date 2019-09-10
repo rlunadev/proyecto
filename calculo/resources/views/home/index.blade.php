@@ -120,7 +120,8 @@
               for (let i = 0; i < lista.length; i++) {
                 items = items + 
                 `
-                  <div class="info-box bg-${lista[i].status == 0?'yellow':'green'}">
+                <div class="col-md-3">
+                  <div class="info-box bg-${lista[i].status == 0?'green':'green'}">
                     <span class="info-box-icon"><i class="ion ion-ios-pricetag-outline"></i></span>
 
                     <div class="info-box-content">
@@ -136,8 +137,7 @@
                     </div>
                     <!-- /.info-box-content -->
                   </div>
-                  
-                  
+                </div>
                   `;
               }
               $("#avanzeProyecto").append(items);

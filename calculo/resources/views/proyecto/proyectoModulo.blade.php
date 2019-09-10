@@ -3,17 +3,8 @@
 @section('content')
 
 <div class="panel panel-default">
-	<!-- <div class="col-md-12">
-		<div class="col-md-8">
-			<p class="panel-heading">Salidas</p>
-		</div>
-		<div class="col-md-4">
-		</div>
-	</div> -->
 		<div>
-      
-      <!-- /.box-body -->
-      <!-- /.box-header -->
+      <input type="hidden" id="proyectoId">
       <div class="col-md-6">
         <div class="row">
            <div class="box box-danger">
@@ -63,18 +54,44 @@
                   <div class="col-md-6">
                     </div>
                     <div class="col-md-6 text-left">
-                      <button type="button" class="btn btn-primary pull-right" id="closeSalida"> Crear</button>
+                      <button type="button" class="btn btn-primary pull-right" id="crearProyecto"> Crear</button>
                     </div>
                   <br><br>
                 </div>
             </div>
         </div>
         <div class="row">
-
+            <div class="col-md-12">
+                <div class="box box-danger">
+                  <div class="box-header with-border">
+                    <h3 class="box-title">Modulos de proyecto</h3>
+        
+                    <div class="box-tools pull-right">
+                      <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i>
+                      </button>
+                    </div>
+                  </div>
+                  <div class="box-body">
+                  <table id="table3" class="table table-bordered table-striped">
+                    <thead>
+                    <tr>
+                      <th>Nombre</th>
+                      <th>Cantidad</th>
+                      <th>Subtotal</th>
+                      <th></th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    </tbody>
+                  </table>
+                  <!-- total<span id="total"></span> -->
+                  </div>
+                </div>
+              </div>
           </div>
         </div>
        
-    <div class="col-md-6">
+    <div class="col-md-6" id="modulosdisp" style="pointer-events: none; opacity: 0.4;">
         <div class="box box-danger">
           <div class="box-header with-border">
             <h3 class="box-title">Modulos Disponibles</h3>
@@ -89,7 +106,7 @@
             <thead>
             <tr>
               <th>Nombre</th>
-              <th>Cant. Disp.</th>
+              <th></th>
               <th>P. Venta </th>
               <th></th>
             </tr>
@@ -101,14 +118,8 @@
           </div>
         </div>
       </div>
+      
 </div>
-<a href=""class="btn btn-danger" id="siguiente">Crear Proyecto por Módulos</a>
-<script>
-  $("#siguiente").hover(function(){
-     var url=window.location.origin+"/proyecto/calculo/public/proyectoModulo?token="+localStorage.getItem('token');
-     $(this).attr('href',url);
-  });
-</script>
 @endsection
 
 <script src="{{asset('bower_components/jquery/dist/jquery.min.js')}}"></script>
@@ -121,30 +132,36 @@
 var auxId='';
  $(document).ready(function () {
 	$('.select2').select2();
-  $(".tableSalida").load("http://localhost:8000/proyecto/calculo/public/partial/test.html");
+  $(".tableSalida").load("http://localhost:8000/calculo/public/partial/test.html");
   $('.datepicker').datepicker({autoclose: true})
  });
  getAll();
- //getAllDetalle();
-//Get all ITEM
+var subtotal=0
+//CREATE PROYECTO FROM MODULES
   function getAll(){
     $.ajax({
       type: 'POST',
-      url:{!!json_encode(url('/'))!!}+"/api/modulo/GetAll?token="+localStorage.getItem('token'),
+      url:{!!json_encode(url('/'))!!}+"/api/modulo/GetAllGroup?token="+localStorage.getItem('token'),
       //data:{data:2},
       success: function(result) {
+        console.log(result.data);
         $.each(result.data, function() {
           $.each(this, function(index, value) {
-            var newItem = $("<tr  id='trId_"+value.id+"' role='row' class='odd'><td class='sorting_1'>" + value.nombre + "</td><td>" + value.cantidad+" </td><td class='subtotal'>" + value.subTotal+" </td><td class='text-right'></td></tr>");
+            var newItem = `
+            <tr  id='trId_"${value.id}' role='row' class='odd'>
+            <td class='sorting_1'>${value.nombre}</td>
+              <td>  </td>
+            <td class='subtotal'>${value.subTotal/value.cantidad} </td>
+              <td class='text-right'><button class="btn btn-default" onclick="agregarModulo('${value.modulo_id}','${value.nombre}')" data-toggle='modal' data-target='#modal-edit' onclick="abrirModulo(${value.subtotal})"> Agregar</button></td>
+            </tr>")`;
               $("#table1 tbody").append(newItem);
+              subtotal =value.subTotal/value.cantidad;
           });
         });
         var newItem = $("<tfoot><tr><td></td><td><b>TOTAL</b></td><td><p id='total'></p> </td><td></td></tr></tfoot>");
         $("#table1").append(newItem);
         sumaTotal();
         $('#table1').DataTable({
-          //"pageLength":5
-          //"columns":[{"data":"P.Subtotal",render:$.fn.dataTable.render(',','.',2,'')}]
         });
       },
       error: function(e) {}
@@ -159,7 +176,16 @@ var auxId='';
       success: function(result) {
         $.each(result.data, function() {
           $.each(this, function(index, value) {
-            var newItem = $("<tr  id='trId_"+value.id+"' role='row' class='odd'><td class='sorting_1'> <input type='hidden'>" + value.nombre_producto + "</td><td>" + value.cantidad+" </td><td >" + value.precio_venta+" </td><td class='precio'>" + value.subTotal+" </td><td class='text-right'><button type='button' class='btn btn-default btn-sm' onclick='deleteFromTable("+value.id+")' data-href='"+value.id+"' data-toggle='modal' data-target='#confirm-modal'> Borrar </button></td></tr>");
+            var newItem = `<tr  
+            id='trId_"${value.id}' role='row' class='odd'>
+            <td class='sorting_1'> <input type='hidden'> ${value.nombre_producto} </td>
+            <td>" ${value.cantidad} </td>
+            <td > ${value.precio_venta} </td>
+            <td class='precio'>${value.subTotal} </td>
+            <td class='text-right'>
+            <button type='button' class='btn btn-default btn-sm' onclick='deleteFromTable(${value.id})' data-href='${value.id}' data-toggle='modal' data-target='#confirm-modal'> Borrar </button>
+            </td>
+            </tr>")`;
               $("#table2 tbody").append(newItem);
           });
         });
@@ -180,7 +206,6 @@ var auxId='';
         id:id
       },
       success: function(result) {
-        console.log(result);
         updateTablaCantidadItem (result.item_id);
         sumaTotal();
       },
@@ -188,21 +213,28 @@ var auxId='';
     });
   }
 //SAVE DETALLE SALIDA DETALLE
-  function SaveData (nombre,cantidad){
+  function guardarModulo(){
+    //$("#modal-edit").modal('toggle');
+   var cantidad = $("#cantidadEdit").val();
     $.ajax({
       type: 'POST',
-      url:{!!json_encode(url('/'))!!}+"/api/salidaDetalle/SaveData?token="+localStorage.getItem('token'),
+      url:{!!json_encode(url('/'))!!}+"/api/proyecto/CreaProyectoModulo?token="+localStorage.getItem('token'),
       data:{
-        item_id:auxId,
-        nombre_producto:nombre,
-        cantidad:cantidad,
+        proyectoId: $("#proyectoId").val(),
+        fecha_inicio: $("#fecha_inicio").val(),
+        fecha_final: $("#fecha_final").val(),
+        moduloId: moduloId,
+        cantidad: cantidad,
+        subtotal: subtotal,
       },
       success: function(obj) {
-        updateTablaCantidadItem (auxId);
-        $(".tableSalida").load("http://localhost:8000/inventario/public/partial/test.html");
-        clear();
-        auxId='';
-        sumaTotal();
+       var item = `<tr>
+                      <td>${nombreModulo}</td>
+                      <td>${cantidad}</td>
+                      <td>${subtotal}</td>
+                    </tr>`;
+
+       $("#table3 tbody").append(item);
       },
       error: function(e) {}
     });
@@ -238,7 +270,7 @@ var auxId='';
       error: function(e) {}
     });
  }
- function SaveSalida (){
+ function registrarProyecto (){
     $.ajax({
       type: 'POST',
       url:{!!json_encode(url('/'))!!}+"/api/proyecto/SaveData?token="+localStorage.getItem('token'),
@@ -251,6 +283,9 @@ var auxId='';
         fecha_final:$("#fecha_final").val(),
       },
       success: function(result) {
+        console.log(result.data);
+        $("#modulosdisp").css({"pointer-events": "","opacity":"1" });
+        $("#proyectoId").val(result.data.id);
         if(!result.success) {
         for(var key in result.error){
           for(var i = 0;i<result.error[key].length;i++){
@@ -262,7 +297,7 @@ var auxId='';
       }
       else {
         if(result.success){
-          location.reload();
+          //location.reload();
           //window.location.href ="http://localhost:8000/calculo/public/proyecto?token="+localStorage.getItem('token')
         }
       }
@@ -296,8 +331,6 @@ var auxId='';
               else
                 {var newItem = $("<option  value='"+value.id+"'>"+value.nombre+"</option>");}
                 $("#select_"+nombreSelect+"Edit").append(newItem);
-               // var newItem = $("<option  value='"+value.id+"'>"+value.nombre+"</option>");
-               // $("#select_"+nombreSelect+"Edit").append(newItem);
             });
           });
         }
@@ -313,26 +346,23 @@ function editFromTable(id){
   auxId=id;
   GetById(auxId);
 }
-$(document).on('click', '#closeSalida', function (e) {
-  SaveSalida();
+$(document).on('click', '#crearProyecto', function (e) {
+  registrarProyecto();
 });
-//add=0, isedit=1
-//getSelectOption('categoria',0,0);
-//getSelectOption('unidad',0,0);
-//Modal Confirmation when okey
+
   $(document).on('click', '#okey', function (e) {
     deleteById(auxId);
     $("#trId_"+auxId).remove();
     auxId='';
   });
-//
-  // $(document).on('click', '#okeyAdd', function (e) {
-  //     SaveData($("#nombre").val(),$("#cantidad").val(),$("#precio_unitario").val(),$("#precio_venta").val(),$("#select_unidad").val(),$("#select_categoria").val());
-  //     //$("#trId_"+auxId).remove();
-  // });
-  $(document).on('click', '#okeyEdit', function (e) {
-    SaveData($("#nombreEdit").val(),$("#cantidadEdit").val());
-  });
+  var moduloId ='';
+  var nombreModulo = '';
+  function agregarModulo(id, nModulo){
+    moduloId = id;
+    nombreModulo = nModulo;
+    $("#cantidadEdit").val('');
+    console.log(moduloId);
+  }
 function clear(){
   //clear all input and delete values
   $("#modal-edit").find('input').val('');
@@ -340,9 +370,7 @@ function clear(){
 }
 function clearSelect(tipo){
   $("#select_"+tipo+"Edit").find('option').remove();
-  //$("#select_categoriaEdit").find('option').remove();
   $("#select_"+tipo).find('option').remove();
-  //$("#select_categoria").find('option').remove();
 }
 function sumaTotal(){
 var sum=0;
@@ -352,56 +380,9 @@ $(".subtotal").each(function(){
       sum+=parseFloat(value);
     }
   });
-  $("#total").text(sum);
+  $("#total").text(sum.toFixed(2));
 }
 </script>
-<!-- ADD -->
-  <div class="modal fade" id="modal-add">
-    <div class="modal-dialog">
-      <div class="modal-content">
-        <div class="modal-header">
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true">&times;</span></button>
-        <h4 class="modal-title">Nuevo</h4>
-        </div>
-        <div class="modal-body">
-          <div class="form-group">
-            <label>Nombre</label>
-            
-          </div>
-          <div class="form-group">
-              <label>Cantidad</label>
-              <input type="number"id="cantidad" class="form-control" placeholder="">
-          </div>
-          <!-- <div class="form-group">
-              <label>Precio Unitario</label>
-              <input type="number" step="0.1" id="precio_unitario" class="form-control" placeholder="">
-          </div> -->
-          <div class="form-group">
-              <label>Precio </label>
-              <input type="number" step="0.1" id="precio_venta" class="form-control" placeholder="">
-          </div>
-          <div class="form-group">
-              <label>Unidad</label>
-              <select class="form-control select2" id="select_unidad" style="width: 100%;" disabled="true">
-
-              </select>
-          </div>
-          <div class="form-group">
-              <label>Categoria</label>
-              <select class="form-control select2" id="select_categoria" style="width: 100%;">
-
-              </select>
-          </div>
-        </div>
-        <div class="modal-footer">
-        <button type="button" class="btn btn-default pull-left" data-dismiss="modal">Cancelar</button>
-        <button type="button" class="btn btn-primary" data-dismiss="modal" id="okeyAdd" >Registrar</button>
-        </div>
-      </div>
-    </div>
-  </div>
-<!-- ADD -->
 
 <!-- EDIT -->
   <div class="modal fade" id="modal-edit">
@@ -413,42 +394,16 @@ $(".subtotal").each(function(){
         <h4 class="modal-title">Nuevo</h4>
         </div>
         <div class="modal-body">
-          <div class="form-group">
-            <label>Nombre</label>
-            <input type="text" id="nombreEdit" class="form-control" value="" disabled="true">
-          </div>
+          
           <div class="form-group">
             <label>Cantidad</label>
             <input type="number" id="cantidadEdit" class="form-control" value="" required>
           </div>
-          <!-- <div class="form-group">
-            <label>Nombre de Empresa</label>
-            <input type="text" id="nombreEmpresaEdit" class="form-control" value="">
-          </div> -->
-          <!-- <div class="form-group">
-              <label>Precio Unitario</label>
-              <input type="number" step="0.1" id="precio_unitarioEdit" class="form-control" value="" disabled="true">
-          </div>
-          <div class="form-group">
-              <label>Precio Venta</label>
-              <input type="number" step="0.1" id="precio_ventaEdit" class="form-control" value="" disabled="true">
-          </div>
-          <div class="form-group">
-              <label>Unidad</label>
-              <input type="hidden" id="unidadEdit" class="form-control" value="">
-              <select class="form-control select2" id="select_unidadEdit" style="width: 100%;" disabled="true">
-              </select>
-          </div>
-          <div class="form-group">
-              <label>Categoria</label>
-              <input type="hidden" id="categoriaEdit" class="form-control" value="">
-              <select class="form-control select2" id="select_categoriaEdit" style="width: 100%;" disabled="true">
-              </select>
-          </div> -->
+          
         </div>
         <div class="modal-footer">
-        <button type="button" class="btn btn-default pull-left" data-dismiss="modal">Cancelar</button>
-        <button type="button" class="btn btn-primary" data-dismiss="modal" id="okeyEdit" >Agregar</button>
+        <button type="button" class="btn btn-default pull-left" >Cancelar</button>
+        <button type="button" class="btn btn-primary" data-dismiss="modal" onclick="guardarModulo()" >Agregar</button>
         </div>
       </div>
     </div>
@@ -471,7 +426,7 @@ $(".subtotal").each(function(){
 
                 <div class="modal-footer">
                     <button type="button" class="btn btn-default" data-dismiss="modal">No</button>
-                    <button type="button" class="btn btn-danger" data-dismiss="modal" id="okey" >Si, estoy seguro</button>
+                    <button type="button" class="btn btn-danger" data-dismiss="modal" id="okey" onclick="borrarModulo()">Si, estoy seguro</button>
                 </div>
             </div>
         </div>

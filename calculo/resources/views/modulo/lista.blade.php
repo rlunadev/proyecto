@@ -15,7 +15,7 @@
           <table id="table1" class="table table-bordered table-striped">
             <thead>
             <tr>
-              <th>nombre formula</th>
+              <th>Nombre formula</th>
               <th>Total.</th>
               <th>Fecha </th>
               <th></th>

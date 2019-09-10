@@ -43,8 +43,10 @@ Route::post('avanzeProyecto', 'InicioController@avanzeProyecto');
     Route::post('proyecto/GetByIdDate', 'ProyectoController@GetByIdDate');
     Route::post('proyecto/Update', 'ProyectoController@Update');
     Route::post('proyecto/GetByEmpresaId', 'ProyectoController@GetByEmpresaId');
+    Route::post('proyecto/CreaProyectoModulo', 'ProyectoController@CreaProyectoModulo');
       //******* MODULO******//
     Route::post('modulo/GetAll', 'ModuloController@GetAll');
+    Route::post('modulo/GetAllGroup', 'ModuloController@GetAllGroup');
     Route::post('modulo/GetForFase', 'ModuloController@GetForFases');
     Route::post('modulo/GetFaseById', 'ModuloController@GetFaseById');
     Route::post('modulo/UpdateDataById', 'ModuloController@UpdateDataById');

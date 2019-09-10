@@ -30,6 +30,7 @@ use Illuminate\Http\Request;
 		Route::get('formula', 'FormulaController@index');
 		Route::get('formulaDetalle', 'FormulaDetalleController@index');
 		Route::get('proyecto', 'ProyectoController@index');
+		Route::get('proyectoModulo', 'ProyectoController@proyectoModulo');
 		Route::get('listaproyecto', 'ProyectoController@lista');
 		Route::get('modulo', 'ModuloController@index');
 		Route::get('listamodulo', 'ModuloController@lista');

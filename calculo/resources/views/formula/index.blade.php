@@ -15,7 +15,7 @@
           <table id="table1" class="table table-bordered table-striped">
             <thead>
             <tr>
-              <th>nombre formula</th>
+              <th>Nombre formula</th>
               <th>Total.</th>
               <th>Fecha </th>
               <th></th>
@@ -95,7 +95,7 @@ var auxId='';
   function editFromTable(id){
   auxId=id;
   $(".detalleTablaFormulaProducto").load("http://localhost:8000/proyecto/calculo/public/partial/detalleTablaFormulaProducto.html");
-  GetById(auxId);ss
+  GetById(auxId);
 }
 </script>
 

@@ -55,7 +55,7 @@ var auxId='';
       success: function(result) {
         $.each(result.data, function() {
           $.each(this, function(index, value) {
-            var diferencia=value.presupuesto-value.total;
+            var diferencia=(value.presupuesto-value.total).toFixed(2);
             var newItem = $("<tr  id='trId_"+value.id+"' role='row' class='odd'><td class='sorting_1'>" + value.nombre + "</td><td>" + value.presupuesto+" </td><td>" + value.total+" </td><td>" +diferencia+" </td><td>" + value.fecha_inicio+" </td><td>" + value.fecha_final+" </td><td class='text-right'><button type='button' class='btn btn-default btn-sm'>Editar</button><button type='button' class='btn btn-default btn-sm'  onclick='editFromTable("+value.id+")' data-href='"+value.id+"'  data-toggle='modal' data-target='#modal-edit' > Detalle </button></td></tr>");
               $("#table1 tbody").append(newItem);
           });

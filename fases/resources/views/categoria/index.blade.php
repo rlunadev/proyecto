@@ -3,7 +3,20 @@
 @section('title','Fases')
 @section('content')
 <!-- GANTT -->
+<style>
+.modal-dialog {
+  width: 100%;
+  height: 100%;
+  margin: 0;
+  padding: 0;
+}
 
+.modal-content {
+  height: auto;
+  min-height: 100%;
+  border-radius: 0;
+}
+</style>
 <link rel="stylesheet" type="text/css" href="{{asset('gantt/lib/jquery-ui-1.8.4.css')}}" />
 <link rel="stylesheet" type="text/css" href="{{asset('gantt/jquery.ganttView.css')}}" />
 
@@ -60,7 +73,7 @@ function getgant(result){
   $(function () {
     $("#ganttChart").ganttView({ 
       data: result,
-      slideWidth: 620,
+      slideWidth: 900,
       behavior: {
         onClick: function (data) { 
          // var msg = "selecciono: { id = "+data.id+",start: " + data.start.toString("M/d/yyyy") + ", end: " + data.end.toString("M/d/yyyy") + " }";

@@ -30,7 +30,6 @@ class ModuloController extends Controller
         });
         return response()->json(['success'=>true,'data'=>$data]);
     }
-
     public function index() {
         return view('modulo.index');
     }
@@ -42,7 +41,21 @@ class ModuloController extends Controller
         $data=Modulo
         ::join('modulos_detalles','modulos.id','=','modulos_detalles.modulo_id')
         ->select('*')
-        //->whereNull('proyecto_id')
+        ->groupBy('nombre')
+        ->whereNull('proyecto_id')
+        ->getQuery()
+        ->get();
+        
+        return response()->json([
+            'success'=>true,
+            'data'=> [ 'data' => $data]
+        ]);
+    }
+
+    public function GetAllGroup(Request $request) {    
+        $data=Modulo
+        ::join('modulos_detalles','modulos.id','=','modulos_detalles.modulo_id')
+        ->select('*')
         ->groupBy('nombre')
         ->getQuery()
         ->get();
@@ -50,7 +63,8 @@ class ModuloController extends Controller
             'success'=>true,
             'data'=> [ 'data' => $data]
         ]);
-	}
+    }
+
 	//GET BY EMPRESA
 	public function GetByEmpresaId(Request $request){
         $id_empresa=JWTAuth::getPayload($request->token)->get('empresa.id');
@@ -65,7 +79,6 @@ class ModuloController extends Controller
             'data'=> [ 'data' => $data]
         ]);
 	}
-
     public function DeleteById(Request $request){
         $data=Salida::find($request->id);
         if($data!=null){
@@ -83,12 +96,10 @@ class ModuloController extends Controller
 		});
         return response()->json(['success'=>true,'data'=>['data'=>$data]]);
     }
-
     public function DeleteAll() {
        $data = Salida::All();
        return response()->json(['success'=>true]);
      }
-
     public function Update(Request $request) {
             $data=Salida::find($request->id);
             $data->nombre=$request->nombre;

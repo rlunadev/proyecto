@@ -181,7 +181,6 @@ var auxId='';
         id:id
       },
       success: function(result) {
-        console.log(result);
         updateTablaCantidadItem (result.item_id);
         sumaTotal();
       },

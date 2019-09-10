@@ -15,13 +15,10 @@ use DB;
 class ProyectoController extends Controller
 {
     public function SaveData (Request $request) {
-        //dd($request);
-        $rules = [
-            'nombre' => 'required'
-        ];
+        $rules = ['nombre' => 'required'];
         $input = $request->only('nombre');
         $validator = Validator::make($input, $rules);
-        //dd();
+
         $data=new Proyecto();
         $data->nombre=$request->nombre;
         $data->ubicacion=$request->ubicacion;
@@ -30,42 +27,27 @@ class ProyectoController extends Controller
         $data->fecha_final=$request->fecha_final;
         $data->total=$request->total;
         
-
         $data->save();
-        //update formula detalle
+        
         DB::table('modulos')
         ->where('proyecto_id',null)
         ->update(['proyecto_id'=>$data->id]);
 
-        // $formula_detalle=formulaDetalle::whereNull('formula_id')->get();
-        // $formula_detalle->each(function($formula_detalledata){
-		// 	$formula_detalle->formula_id=$data->id;
-        // });
-        
-
-        // if($validator->fails()) {
-        //     $error = $validator->messages();
-        //     return response()->json(['success'=> false, 'error'=> $error]);
-        // }
-        // $id_empresa=JWTAuth::getPayload($request->token)->get('empresa.id');
-        // $data=new Salida($request->all());
-        // DB::statement('call cerrarSalida(?,?,?)',[$data->nombre,$data->empresa_solicitante,$id_empresa]);
-        return response()->json(['success'=>true]);
+        return response()->json(['success'=>true, 'data' => $data]);
     }
 
     public function index() {
         return view('proyecto.index');
     }
+    public function proyectoModulo() {
+        return view('proyecto.proyectoModulo');
+    }
+    
     public function lista() {
         return view('proyecto.lista');
     }
     public function GetAll(Request $request){
-        // $id_empresa=JWTAuth::getPayload($request->token)->get('empresa.id');
-        // $data=Salida::where('empresa_id','=',$id_empresa)->get();
 		$data=Proyecto::all();
-		// $data->each(function($data){
-		// 	$data->salidaDetalle;
-		// });
         return response()->json([
             'success'=>true,
             'data'=> [ 'data' => $data]
@@ -73,9 +55,6 @@ class ProyectoController extends Controller
 	}
 	//GET BY EMPRESA
 	public function GetByEmpresaId(Request $request){
-        //dd($request->token);
-        //$data=Item::where('empresa_id','=','2')->get();
-        //$data=Salida::all();
         $id_empresa=JWTAuth::getPayload($request->token)->get('empresa.id');
         $data=Salida::where('empresa_id','=',$id_empresa)->get();
 		$data->each(function($data){
@@ -159,5 +138,17 @@ class ProyectoController extends Controller
                $data->empresa;
            });
         return response()->json(['success'=>true,'data'=>$data]);
+    }
+
+    public function CreaProyectoModulo (Request $request) {
+        $modId= $request->moduloId;
+        $fi = $request->fecha_inicio;
+        $ff = $request->fecha_final;
+        $pid = $request->proyectoId;
+        $cantidad = $request->cantidad;
+        $subtotal = $request->subtotal;
+
+        $a = DB::statement('call moduloProyecto(?,?,?,?,?,?)',[$modId, $pid, $fi, $ff, $cantidad, $subtotal]);
+        return response()->json(['success'=>true,'data'=>$a]);
     }
 }

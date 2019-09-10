@@ -1,5 +1,4 @@
-<?php
-
+<?php                           
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
@@ -18,7 +17,6 @@ class InicioController extends Controller
     public function index(Request $request){
         return View('home.index');
     }
-
     // 
     public function setMenu(Request $request){
         $data=JWTAuth::getPayload($request->token);
@@ -51,7 +49,7 @@ class InicioController extends Controller
         }
     }
     public function avanzeProyecto (Request $request) {
-        $sqlQuery = " SELECT   p.total, p.presupuesto, p.id, p.nombre,p.fecha_inicio,p.fecha_final,p.status, COUNT(m.id) totalModulos, (SELECT COUNT(m.status) FROM modulos m WHERE m.status = 1 AND m.proyecto_id = p.id) totalActivos, IFNULL(ROUND(((SELECT COUNT(m.status) FROM modulos m WHERE m.status = 1 AND m.proyecto_id = p.id)*100)/COUNT(m.id) ,2),0) porcentaje FROM proyectos p left JOIN modulos m ON p.id=m.proyecto_id GROUP BY p.id; ";
+        $sqlQuery = " SELECT p.total, p.presupuesto, p.id, p.nombre,p.fecha_inicio,p.fecha_final,p.status, COUNT(m.id) totalModulos, (SELECT COUNT(m.status) FROM modulos m WHERE m.status = 1 AND m.proyecto_id = p.id) totalActivos, IFNULL(ROUND(((SELECT COUNT(m.status) FROM modulos m WHERE m.status = 1 AND m.proyecto_id = p.id)*100)/COUNT(m.id) ,2),0) porcentaje FROM proyectos p left JOIN modulos m ON p.id=m.proyecto_id GROUP BY p.id; ";
         $data = DB::select(DB::raw($sqlQuery));
         
         return response()->json(['result'=>$data]);

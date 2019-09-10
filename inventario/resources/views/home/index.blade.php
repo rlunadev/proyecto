@@ -9,6 +9,43 @@
 <script src="{{asset('bower_components/datatables.net-bs/js/dataTables.bootstrap.min.js')}}"></script>
 
 <h3>Resumen de Stock</h3>
+  
+{{-- ultimos registros --}}
+<div class="box box-info">
+	<div class="box-header with-border">
+			<h3 class="box-title">ULTIMOS PRODUCTOS REGISTRADOS</h3>
+
+	  <div class="box-tools pull-right">
+		<button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i>
+		</button>
+	  </div>
+	</div>
+	<!-- /.box-header -->
+	<div class="box-body">
+	  <div class="table-responsive">
+		<table class="table no-margin" id="ultimosRegistros">
+		  <thead>
+		  <tr>
+			<th>Nombre Item</th>
+			<th>Categoria</th>
+			<th>Unidad</th>
+			<th>Cantidad</th>
+			<th>Total Bs.</th>
+		  </tr>
+		  </thead>
+		  <tbody>
+		 
+		  </tbody>
+		</table>
+	  </div>
+	  <!-- /.table-responsive -->
+	</div>
+	<!-- /.box-body -->
+	<div class="box-footer clearfix">
+	  <a href="javascript:void(0)" class="btn btn-sm btn-info btn-flat pull-right">Ver Todos los productos</a>
+	</div>
+	<!-- /.box-footer -->
+  </div>
 
 {{-- ultimas Salidas --}}
   <div class="box box-info">
@@ -42,48 +79,11 @@
 	</div>
 	<!-- /.box-body -->
 	<div class="box-footer clearfix">
-	  <a href="javascript:void(0)" class="btn btn-sm btn-info btn-flat pull-right">Ver Todos los productos</a>
+		<a href="javascript:void(0)" class="btn btn-sm btn-info btn-flat pull-right">Ver Todas las Salidas</a>
 	</div>
 	<!-- /.box-footer -->
   </div>
 
-  
-{{-- ultimos registros --}}
-  <div class="box box-info">
-	<div class="box-header with-border">
-			<h3 class="box-title">ULTIMOS PRODUCTOS REGISTRADOS</h3>
-
-	  <div class="box-tools pull-right">
-		<button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i>
-		</button>
-	  </div>
-	</div>
-	<!-- /.box-header -->
-	<div class="box-body">
-	  <div class="table-responsive">
-		<table class="table no-margin" id="ultimosRegistros">
-		  <thead>
-		  <tr>
-			<th>Nombre Item</th>
-			<th>Categoria</th>
-			<th>Unidad</th>
-			<th>Cantidad</th>
-			<th>Total Bs.</th>
-		  </tr>
-		  </thead>
-		  <tbody>
-		 
-		  </tbody>
-		</table>
-	  </div>
-	  <!-- /.table-responsive -->
-	</div>
-	<!-- /.box-body -->
-	<div class="box-footer clearfix">
-	  <a href="javascript:void(0)" class="btn btn-sm btn-info btn-flat pull-right">Ver Todas las Salidas</a>
-	</div>
-	<!-- /.box-footer -->
-  </div>
 
 
   <script>
