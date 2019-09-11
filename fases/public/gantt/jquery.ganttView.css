@@ -73,6 +73,7 @@ div.ganttview-vtheader-item-name {
 div.ganttview-vtheader-series-name {
 	width: 130px;
 	height: 31px;
+	font-size: 10px;
 	border-top: 1px solid #d0d0d0;
 	line-height: 16px;
 	padding-left: 5px;

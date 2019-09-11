@@ -76,8 +76,7 @@ function getgant(result){
       slideWidth: 900,
       behavior: {
         onClick: function (data) { 
-         // var msg = "selecciono: { id = "+data.id+",start: " + data.start.toString("M/d/yyyy") + ", end: " + data.end.toString("M/d/yyyy") + " }";
-         // $("#eventMessage").text(msg);
+         
         },
         onResize: function (data) { 
           var msg = "fecha movida: { id = "+data.id+", start: " + data.start.toString("M/d/yyyy") + ", end: " + data.end.toString("M/d/yyyy") + " }";
@@ -94,6 +93,10 @@ function getgant(result){
   });
 }
 getAll();
+ $(document).ready(function () {
+  $(".ganttview-vtheader-series").css("width","900px");
+  })
+
 
 //Get all ITEM
   function getAll(){
@@ -163,7 +166,7 @@ $(document).on('click','#printGantt',function(){
         <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span></button>
-        <h4 class="modal-title">Proyecto</h4>
+        <h4 class="modal-title">Proyectos</h4>
         </div>
         <div class="modal-body" id="printable">
             <div id="ganttChart" wit></div>

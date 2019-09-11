@@ -83,6 +83,7 @@
                     </thead>
                     <tbody>
                     </tbody>
+                    <tfoot><tr><td></td><td><b>TOTAL</b></td><td><p id='total'></p> </td><td></td></tr></tfoot>
                   </table>
                   <!-- total<span id="total"></span> -->
                   </div>
@@ -136,31 +137,30 @@ var auxId='';
   $('.datepicker').datepicker({autoclose: true})
  });
  getAll();
-var subtotal=0
+
 //CREATE PROYECTO FROM MODULES
   function getAll(){
     $.ajax({
       type: 'POST',
       url:{!!json_encode(url('/'))!!}+"/api/modulo/GetAllGroup?token="+localStorage.getItem('token'),
-      //data:{data:2},
       success: function(result) {
         console.log(result.data);
         $.each(result.data, function() {
           $.each(this, function(index, value) {
+            
+            //var subtotal =value.subTotal/value.cantidad;
             var newItem = `
             <tr  id='trId_"${value.id}' role='row' class='odd'>
             <td class='sorting_1'>${value.nombre}</td>
               <td>  </td>
-            <td class='subtotal'>${value.subTotal/value.cantidad} </td>
-              <td class='text-right'><button class="btn btn-default" onclick="agregarModulo('${value.modulo_id}','${value.nombre}')" data-toggle='modal' data-target='#modal-edit' onclick="abrirModulo(${value.subtotal})"> Agregar</button></td>
+            <td>${value.subTotal} </td>
+              <td class='text-right'>
+              <button class="btn btn-default" onclick="agregarModulo('${value.modulo_id}','${value.nombre}','${value.subTotal}')" data-toggle='modal' data-target='#modal-edit'> Agregar</button></td>
             </tr>")`;
               $("#table1 tbody").append(newItem);
-              subtotal =value.subTotal/value.cantidad;
+              
           });
         });
-        var newItem = $("<tfoot><tr><td></td><td><b>TOTAL</b></td><td><p id='total'></p> </td><td></td></tr></tfoot>");
-        $("#table1").append(newItem);
-        sumaTotal();
         $('#table1').DataTable({
         });
       },
@@ -214,7 +214,7 @@ var subtotal=0
   }
 //SAVE DETALLE SALIDA DETALLE
   function guardarModulo(){
-    //$("#modal-edit").modal('toggle');
+   subtotal = subtotal*$("#cantidadEdit").val();
    var cantidad = $("#cantidadEdit").val();
     $.ajax({
       type: 'POST',
@@ -228,18 +228,44 @@ var subtotal=0
         subtotal: subtotal,
       },
       success: function(obj) {
-       var item = `<tr>
+        
+       var item = `<tr id="trIdmod_${nombreModulo.replace(/ /g,"")}">
                       <td>${nombreModulo}</td>
                       <td>${cantidad}</td>
-                      <td>${subtotal}</td>
+                      <td class='subtotal'>${subtotal}</td>
+                      <td ><button class="btn btn-default"  onclick="borrarM('${$("#proyectoId").val()}','${nombreModulo}','${subtotal}')">Borrar </button></td>
                     </tr>`;
-
        $("#table3 tbody").append(item);
+       sumaTotal();
       },
       error: function(e) {}
     });
   }
-//Get By Id
+
+  function borrarM(pId, nombreModulo, stotal) {
+    console.log(pId, nombreModulo, stotal);
+    nombreModulo = nombreModulo.replace(/ /g,"");
+    $.ajax({
+      type: 'POST',
+      url:{!!json_encode(url('/'))!!}+"/api/proyecto/ActualizaSubtotalProyecto?token="+localStorage.getItem('token'),
+      data:{
+        proyectoId: pId,
+        nombreModulo: nombreModulo,
+        subtotal: stotal
+      },
+      success: function(obj) {
+        $("#trIdmod_"+nombreModulo).remove();
+       sumaTotal();
+      },
+      error: function(e) {}
+    });
+  }
+
+
+  function delete_user(row) {
+        row.closest('tr').remove();
+    }
+  //Get By Id
   function GetById (id){
     $.ajax({
       type: 'POST',
@@ -277,7 +303,7 @@ var subtotal=0
       data:{
         nombre:$("#nombre").val(),
         ubicacion:$("#ubicacion").val(),
-        total:$("#total").text(),
+        total:0,
         presupuesto:$("#presupuesto").val(),
         fecha_inicio:$("#fecha_inicio").val(),
         fecha_final:$("#fecha_final").val(),
@@ -357,11 +383,15 @@ $(document).on('click', '#crearProyecto', function (e) {
   });
   var moduloId ='';
   var nombreModulo = '';
-  function agregarModulo(id, nModulo){
+  var subtotal = 0;
+
+  function agregarModulo(id, nModulo, stotal){
+
     moduloId = id;
     nombreModulo = nModulo;
+    subtotal = stotal;
     $("#cantidadEdit").val('');
-    console.log(moduloId);
+    console.log(id, nModulo, stotal);
   }
 function clear(){
   //clear all input and delete values
@@ -432,3 +462,97 @@ $(".subtotal").each(function(){
         </div>
     </div>
 <!-- Confirmation Modal -->
+
+<script>  
+  function detalleModulo(id){
+  auxId=id;
+  $(".detalleTablaFormulaProducto").load("http://localhost:8000/proyecto/calculo/public/partial/detalleProyectoModal.html");
+  detailpro(auxId);
+}
+//Get By Id
+function detailpro (id){
+    $.ajax({
+      type: 'POST',
+      url:{!!json_encode(url('/'))!!}+"/api/proyecto/GetById?token="+localStorage.getItem('token'),
+      data:{
+        id:id
+      },
+      success: function(result) {
+        //console.log($.parseHTML(result));
+
+        $.each(result.data, function() {
+          $.each(this, function(index, value) {
+           generateDetails(value.modulo);
+           $("#nombreSalida").text(value.nombre);
+           $("#empresaSolicitud").text(value.empresa_solicitante);
+           $("#fechaSalida").text(value.fecha_inicio);
+           $("#fechafinal").text(value.fecha_final);
+           $("#ubicacion").text(value.ubicacion);
+           var newItem = $("<tfoot><tr  id='trId_"+value.id+"' role='row' class='odd'><td class='sorting_1'></td><td></td><td> <b>TOTAL</b> </td><td><b>" + value.total+"</b></td></tr></tfoot>");
+           $("#table2").append(newItem);
+          });
+        });
+       // $('#table2').DataTable({});
+      },
+      error: function(e) {}
+    });
+  }
+  function generateDetails(result){
+    $.each(result, function(index, value) {
+      var newItem = $("<tr  id='trId_"+value.id+"' role='row' class='odd'><td class='sorting_1'> <b>Modulo: </b> " + value.nombre + "</td><td></td><td></td><td> </tr>");
+      $("#table2 tbody").append(newItem);
+      moduloDetalle(value.moduloDetalle);
+    });
+  }
+  function moduloDetalle(result){
+     var s = $("<tr  id='' role='row' class='odd'><td class='sorting_1'><b>Nombre formula</b></td><td><b>P. Unit.</b></td><td><b>Cantidad</b></td><td><b> Sub Total</b></tr>");
+     $("#table2 tbody").append(s);
+    $.each(result, function(index, value) {
+      console.log(value.cantidad);
+      var newItem = $("<tr  id='trId_"+value.id+"' role='row' class='odd'><td class='sorting_1'>" + value.formula.nombre + "</td><td>"+value.formula.subTotal+"</td><td>"+value.cantidad+"</td><td> "+value.subTotal+"</td></tr>");
+      //formula(value.)
+      $("#table2 tbody").append(newItem);
+    });
+  }
+</script>
+
+<!-- TABLE DETAILS -->
+<div class="modal fade" id="modal-detalle">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content" id="imprime">
+      <div class="modal-header">
+      <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+        <span aria-hidden="true">&times;</span></button>
+      <h4 class="modal-title">Detalle </h4>
+      </div>
+      <div class="modal-body">
+        <div class="col-md-12" >
+          <div class="col-md-4">
+          <h5  style="display:inline"><b>Nombre proyecto: </b></h5> <p id="nombreSalida" style="display:inline"></p>
+          </div>
+          <!-- <div class="col-md-4">
+          <h5 style="display:inline"><b>Empresa Solicitud: </b></h5> <p id="empresaSolicitud" style="display:inline"></p>
+          </div> -->
+          <div class="col-md-2">
+          <h5 style="display:inline"><b>Fecha inicio: </b></h5><p id="fechaSalida"  style="display:inline"></p>
+          </div>
+          <div class="col-md-2">
+          <h5 style="display:inline"><b>Fecha final: </b></h5><p id="fechafinal"  style="display:inline"></p>
+          </div>
+          <div class="col-md-4">
+          <h5 style="display:inline"><b>Ubicacion: </b></h5><p id="ubicacion"  style="display:inline"></p>
+          </div>
+        </div>
+        <div class="col-md-12" >
+          <br>
+        </div>
+       <div class="detalleTablaFormulaProducto"></div>
+      </div>
+      <div class="modal-footer">
+      <!-- <button type="button" class="btn btn-primary" data-dismiss="modal" id="imprimir" >Imprimir</button> -->
+      <button type="button" class="btn btn-primary" data-dismiss="modal" id="okeyEdit" >Cerrar</button>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- /EDIT -->

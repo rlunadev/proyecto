@@ -26,9 +26,9 @@ class ProyectoController extends Controller
         $data->fecha_inicio=$request->fecha_inicio;
         $data->fecha_final=$request->fecha_final;
         $data->total=$request->total;
-        
+
         $data->save();
-        
+
         DB::table('modulos')
         ->where('proyecto_id',null)
         ->update(['proyecto_id'=>$data->id]);
@@ -42,7 +42,7 @@ class ProyectoController extends Controller
     public function proyectoModulo() {
         return view('proyecto.proyectoModulo');
     }
-    
+
     public function lista() {
         return view('proyecto.lista');
     }
@@ -91,13 +91,13 @@ class ProyectoController extends Controller
                 });
             });
         });
-       
+
         return response()->json(['success'=>true,'data'=>['data'=>$data]]);
     }
 
     public function GetByIdDate(Request $request){
         $data=Proyecto::where('id','=',$request->id)->get();
-       
+
 		$data->each(function($data){
             $data->modulo;
         });
@@ -149,6 +149,24 @@ class ProyectoController extends Controller
         $subtotal = $request->subtotal;
 
         $a = DB::statement('call moduloProyecto(?,?,?,?,?,?)',[$modId, $pid, $fi, $ff, $cantidad, $subtotal]);
+        $proy=Proyecto::find($request->proyectoId);
+        $proy->total = $proy->total + $subtotal;
+        $proy->save();
+
         return response()->json(['success'=>true,'data'=>$a]);
+    }
+
+    public function ActualizaSubtotalProyecto (Request $request) {
+        $nombreModulo= $request->nombreModulo;
+        $pid = $request->proyectoId;
+        $subtotal = $request->subtotal;
+
+        $proy=Proyecto::find($request->proyectoId);
+        $proy->total = $proy->total > 0 ? $proy->total-$subtotal:0;
+        $proy->save();
+
+        $res = Modulo::where('nombre',$nombreModulo)->where('proyecto_id',$pid)->delete();
+        //dd($res);
+        return response()->json(['success'=>true]);
     }
 }

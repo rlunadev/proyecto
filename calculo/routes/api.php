@@ -44,6 +44,7 @@ Route::post('avanzeProyecto', 'InicioController@avanzeProyecto');
     Route::post('proyecto/Update', 'ProyectoController@Update');
     Route::post('proyecto/GetByEmpresaId', 'ProyectoController@GetByEmpresaId');
     Route::post('proyecto/CreaProyectoModulo', 'ProyectoController@CreaProyectoModulo');
+    Route::post('proyecto/ActualizaSubtotalProyecto', 'ProyectoController@ActualizaSubtotalProyecto');
       //******* MODULO******//
     Route::post('modulo/GetAll', 'ModuloController@GetAll');
     Route::post('modulo/GetAllGroup', 'ModuloController@GetAllGroup');

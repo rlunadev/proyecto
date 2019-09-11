@@ -43,6 +43,7 @@ class ModuloController extends Controller
         ->select('*')
         ->groupBy('nombre')
         ->whereNull('proyecto_id')
+        ->selectRaw('sum(modulos_detalles.subTotal) subTotal')
         ->getQuery()
         ->get();
         
@@ -57,6 +58,7 @@ class ModuloController extends Controller
         ::join('modulos_detalles','modulos.id','=','modulos_detalles.modulo_id')
         ->select('*')
         ->groupBy('nombre')
+        ->selectRaw('sum(modulos_detalles.subTotal) subTotal')
         ->getQuery()
         ->get();
         return response()->json([
@@ -124,6 +126,7 @@ class ModuloController extends Controller
         $data=Modulo::find($request->id);
         $data->fecha_inicio=$request->fecha_inicio;
         $data->fecha_final=$request->fecha_final;
+        $data->status= 1;
         $data->save();
         return response()->json(['success'=>true]);
     }

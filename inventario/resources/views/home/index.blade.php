@@ -42,7 +42,7 @@
 	</div>
 	<!-- /.box-body -->
 	<div class="box-footer clearfix">
-	  <a href="javascript:void(0)" class="btn btn-sm btn-info btn-flat pull-right">Ver Todos los productos</a>
+	  {{-- <a href="javascript:void(0)" class="btn btn-sm btn-info btn-flat pull-right">Ver Todos los productos</a> --}}
 	</div>
 	<!-- /.box-footer -->
   </div>
@@ -79,7 +79,7 @@
 	</div>
 	<!-- /.box-body -->
 	<div class="box-footer clearfix">
-		<a href="javascript:void(0)" class="btn btn-sm btn-info btn-flat pull-right">Ver Todas las Salidas</a>
+		{{-- <a href="javascript:void(0)" class="btn btn-sm btn-info btn-flat pull-right">Ver Todas las Salidas</a> --}}
 	</div>
 	<!-- /.box-footer -->
   </div>

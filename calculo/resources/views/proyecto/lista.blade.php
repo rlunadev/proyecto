@@ -84,7 +84,14 @@ var auxId='';
            $("#fechaSalida").text(value.fecha_inicio);
            $("#fechafinal").text(value.fecha_final);
            $("#ubicacion").text(value.ubicacion);
-           var newItem = $("<tfoot><tr  id='trId_"+value.id+"' role='row' class='odd'><td class='sorting_1'></td><td></td><td> <b>TOTAL</b> </td><td><b>" + value.total+"</b></td></tr></tfoot>");
+           var newItem = 
+           `<tfoot>
+           <tr  id='trId_${value.id}' role='row' class='odd'>
+           <td class='sorting_1'></td><td></td><td> 
+           <b>TOTAL</b> 
+           </td><td>
+           <b>${value.total}</b>
+           </td></tr></tfoot>`;
            $("#table2").append(newItem);
           });
         });
